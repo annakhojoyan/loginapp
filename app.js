@@ -1,7 +1,5 @@
 var express = require('express'),
-    app = express(),
-    server = require('http').Server(app),
-    io = require('socket.io')(server);
+    app = express();
 
 var path = require('path');
 var cookieParser = require('cookie-parser');
@@ -165,10 +163,10 @@ app.use('/users', users);
 //set port
 app.set('port', (process.env.PORT || 3000));
 
-io.on('connection', function(socket) {
-    console.log('a user connected');
-});
+var io = require('socket.io').listen(app.listen('3000'));
 
-app.listen(app.get('port'), function() {
-    console.log('Server started on port' + app.get('port'));
+io.sockets.on('connection', function(socket) {
+    socket.on('chat message', function(msg) {
+        io.emit('chat message', msg);
+    });
 });
