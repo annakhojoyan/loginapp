@@ -1,0 +1,79 @@
+
+<body>
+	
+<form action="/users/userpage" method="POST" class="form-inline">
+<div class="from-group">
+<input type="text" name="search" placeholder="Compground search...">
+<input type="submit" value="Search" class="btn btn-default">
+<div>
+</form>
+
+{{#if user}}
+<div class="chat">
+{{uname}}{{message}}{{user.username}}
+ <div class="chat-messages">
+ </div>
+ <textarea placeholder="Type your message"></textarea>
+ </div>
+ {{else}}
+ <h6>Search your friends!</h1>
+ {{/if}} 
+ <ul id="messages"></ul>
+    <form action="">
+        <input id="m" autocomplete="off" />
+        <button>Send</button>
+    </form>
+    <script src="http://localhost:9000/socket.io/socket.io.js"> </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/0.9.16/socket.io.min.js"></script>
+    <script>
+    var socket = io.connect();
+    jQuery(function ($) {
+        var tweetList = $('ul.tweets');
+        socket.on('tweet', function (data) {
+            tweetList .prepend('<li>' + data.user + ': ' + data.text + '</li>'); 
+        }); 
+    });
+    </script>
+ </body>
+
+
+
+
+{{!-- <script src='/socket.io/socket.io.js'></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+  <script>
+    var socket = io.connect('http://localhost:3000');
+</script>
+<script>
+	(function(){
+		var getNode = function(s){
+			return document.querySelector(s);
+		},
+
+		chatName = getNode('.chat-name'),
+		textarea = getNode('.chat-messages');
+
+		try{
+			var socket = io.connect("http://127.2.0.3:3000")
+		}catch(e){
+             //set status to warn user
+			
+		}
+		if(socket !== undefined){
+			//LIsten for keydown
+			textarea.addEventListener('keydown', function(event) {
+				var self = this,
+				name = chatName.value;
+				if(event.which === 13 && event.shiftkey ===false){
+					socket.emit('input', {
+						name: name,
+						message: self.value
+					});
+
+				}
+
+			});
+		}
+
+	})();
+ </script> --}}

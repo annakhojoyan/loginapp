@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>LoginApp</title>
+	<link rel="stylesheet" href="/css/bootstrap.css"/>
+	<link rel="stylesheet" href="/css/style.css"/>
+  <link rel="stylesheet" href="/css/chat.css"/>
+</head>
+<body>
+
+      <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            {{#if user}}
+            <li role="presentation"><a href="/">Home</a></li>
+            <li role="presentation"><a href="/users/userpage">UserPage</a></li>
+            <li role="presentation"><a href="/users/logout">Logout</a></li>
+            
+
+            {{else}}
+         <li role="presentation"><a href="/users/login">Login</a></li>
+            <li role="presentation"><a href="/users/register">Register</a></li> 
+             {{/if}}
+          </ul>
+        </nav>
+        <h3 class="text-muted">LoginApp</h3>
+      </div>
+      
+
+      <div class="row">
+        <div class="col-lg-12">
+         {{#if success_msg}}
+            <div class="alert alert-success">{{success_msg}}</div>
+          {{/if}}
+     
+          {{#if error_msg}}
+            <div class="alert alert-danger">{{error_msg}}</div>
+          {{/if}}
+
+          {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+          {{/if}}
+          
+          {{{body}}}
+         
+        </div>
+
+        
+      </div>
+
+      <footer class="footer">
+        <p>&copy; 2017 LoginApp, Inc.</p>
+      </footer>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/jquery.validation/1.16.0/jquery.validate.min.js"></script>
+
+    <script>
+
+ //validation password
+$(document).ready(function (){
+  jQuery.validator.addMethod("correctpassword", function(password){
+     //console.log(password, );
+    if (password.length >= 2 && password.length <= 20){
+      return true;
+    } else {
+      return false;
+    }
+  }, "wrong password");
+
+  jQuery.validator.addMethod("correctname", function(name){
+   var letters = /^[A-Za-z]+$/;
+    if (name.match(letters)){
+      return true;
+    } else {
+      return false;
+    }
+  }, "wrong name");
+
+  jQuery.validator.addMethod("correctemail", function(email){
+    var mailformat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;  
+    if (email.value.match(mailformat)){
+      return true;
+    } else {
+      return false;
+    }
+  }, "wrong email");
+
+  jQuery.validator.addMethod("correctpassword2", function(password2){
+    var password = $('#pass').val();
+    if(password === password2){
+    return true;
+  } else {
+    return false;
+   }
+  }, "invalid password please try again");
+
+      function onSubmit(){
+        return $('#registration-form').valid;
+      }
+      var config = {
+        rules: {
+          password: {
+            correctpassword: true,
+            required: true
+          },
+          name: {
+            correctname: true,
+            required: true
+          },
+          email: {
+            correctemail: true,
+            required: true
+          },
+          password2: {
+            correctpassword2: true,
+            required: true
+          },
+          username: {
+            correctusername: true,
+            required: true
+          }
+        },
+        submitHandler: onSubmit
+      };
+      $('#registration-form').validate(config);
+});
+
+
+    </script>
+    </div> <!-- /container -->
+
+
+</body>
+</html> 
